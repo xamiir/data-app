@@ -9,8 +9,14 @@ import {
 } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { ArrowLeft, Wifi, Menu } from 'lucide-react-native';
-import { supabase } from '@/lib/supabase';
-import { Bundle } from '@/types/database';
+
+interface Bundle {
+  id: string;
+  name: string;
+  data_amount: string;
+  duration: string;
+  price: number;
+}
 
 export default function BundlesScreen() {
   const [bundles, setBundles] = useState<Bundle[]>([]);
@@ -24,66 +30,40 @@ export default function BundlesScreen() {
   }, []);
 
   const loadBundles = async () => {
-    try {
-      const { data } = await supabase
-        .from('bundles')
-        .select('*')
-        .eq('provider_id', providerId)
-        .eq('category_id', categoryId)
-        .order('price');
+    // Static mock bundles
+    const sampleBundles: Bundle[] = [
+      {
+        id: '1',
+        name: '1GB',
+        data_amount: '1GB',
+        duration: 'Valid for 24 hours',
+        price: 2.0,
+      },
+      {
+        id: '2',
+        name: '2GB',
+        data_amount: '2GB',
+        duration: 'Valid for 24 hours',
+        price: 3.5,
+      },
+      {
+        id: '3',
+        name: '5GB',
+        data_amount: '5GB',
+        duration: 'Valid for 30 hours',
+        price: 7.95,
+      },
+      {
+        id: '4',
+        name: '10GB',
+        data_amount: '10GB',
+        duration: 'Valid for 30 hours',
+        price: 12.0,
+      },
+    ];
 
-      if (data && data.length === 0) {
-        const sampleBundles = [
-          {
-            provider_id: providerId,
-            category_id: categoryId,
-            name: '1GB',
-            data_amount: '1GB',
-            duration: 'Valid for 24 hours',
-            price: 2.0,
-          },
-          {
-            provider_id: providerId,
-            category_id: categoryId,
-            name: '2GB',
-            data_amount: '2GB',
-            duration: 'Valid for 24 hours',
-            price: 3.5,
-          },
-          {
-            provider_id: providerId,
-            category_id: categoryId,
-            name: '5GB',
-            data_amount: '5GB',
-            duration: 'Valid for 30 hours',
-            price: 7.95,
-          },
-          {
-            provider_id: providerId,
-            category_id: categoryId,
-            name: '10GB',
-            data_amount: '10GB',
-            duration: 'Valid for 30 hours',
-            price: 12.0,
-          },
-        ];
-
-        const { data: insertedData } = await supabase
-          .from('bundles')
-          .insert(sampleBundles)
-          .select();
-
-        if (insertedData) {
-          setBundles(insertedData);
-        }
-      } else if (data) {
-        setBundles(data);
-      }
-    } catch (error) {
-      console.error('Error loading bundles:', error);
-    } finally {
-      setIsLoading(false);
-    }
+    setBundles(sampleBundles);
+    setIsLoading(false);
   };
 
   if (isLoading) {
@@ -99,7 +79,8 @@ export default function BundlesScreen() {
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
-          onPress={() => router.back()}>
+          onPress={() => router.back()}
+        >
           <ArrowLeft size={24} color="#FFFFFF" />
         </TouchableOpacity>
         <View style={styles.headerCenter}>
@@ -144,7 +125,8 @@ export default function BundlesScreen() {
                         providerName,
                       },
                     })
-                  }>
+                  }
+                >
                   <Text style={styles.buyButtonText}>Buy</Text>
                 </TouchableOpacity>
               </View>

@@ -8,8 +8,12 @@ import {
   Alert,
 } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { ArrowLeft, CreditCard, Wallet, CheckCircle2 } from 'lucide-react-native';
-import { supabase } from '@/lib/supabase';
+import {
+  ArrowLeft,
+  CreditCard,
+  Wallet,
+  CheckCircle2,
+} from 'lucide-react-native';
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function PaymentMethodScreen() {
@@ -48,19 +52,13 @@ export default function PaymentMethodScreen() {
 
     setIsProcessing(true);
     try {
-      const transactionId = Math.random().toString(36).substr(2, 9).toUpperCase();
+      const transactionId = Math.random()
+        .toString(36)
+        .substr(2, 9)
+        .toUpperCase();
 
-      const { error } = await supabase.from('transactions').insert({
-        user_id: user.id,
-        bundle_id: bundleId,
-        provider_id: providerId,
-        amount: parseFloat(price as string),
-        payment_method: selectedMethod,
-        phone_number: phoneNumber as string,
-        status: 'completed',
-      });
-
-      if (error) throw error;
+      // Mock payment processing
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate delay
 
       router.replace({
         pathname: '/receipt',
@@ -86,7 +84,8 @@ export default function PaymentMethodScreen() {
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
-          onPress={() => router.back()}>
+          onPress={() => router.back()}
+        >
           <ArrowLeft size={24} color="#FFFFFF" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Select Payment Method</Text>
@@ -105,7 +104,8 @@ export default function PaymentMethodScreen() {
                   styles.methodCard,
                   selectedMethod === method.id && styles.methodCardSelected,
                 ]}
-                onPress={() => setSelectedMethod(method.id)}>
+                onPress={() => setSelectedMethod(method.id)}
+              >
                 <View style={styles.methodIcon}>
                   <Text style={styles.methodEmoji}>{method.icon}</Text>
                 </View>
@@ -126,7 +126,8 @@ export default function PaymentMethodScreen() {
             (!selectedMethod || isProcessing) && styles.continueButtonDisabled,
           ]}
           onPress={handlePayment}
-          disabled={!selectedMethod || isProcessing}>
+          disabled={!selectedMethod || isProcessing}
+        >
           <Text style={styles.continueButtonText}>
             {isProcessing ? 'Processing...' : 'Continue'}
           </Text>

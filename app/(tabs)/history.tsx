@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { Smartphone, Wifi, Phone } from 'lucide-react-native';
-import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function HistoryScreen() {
@@ -21,26 +20,84 @@ export default function HistoryScreen() {
   }, []);
 
   const loadTransactions = async () => {
-    if (!user) {
-      setIsLoading(false);
-      return;
-    }
+    // Static mock data
+    const mockTransactions = [
+      {
+        id: '1',
+        amount: 5.0,
+        status: 'completed',
+        transaction_date: new Date('2024-11-10T10:00:00Z'),
+        bundles: { name: 'Data Bundle', data_amount: '1GB' },
+        providers: { name: 'Hormud' },
+      },
+      {
+        id: '2',
+        amount: 10.0,
+        status: 'completed',
+        transaction_date: new Date('2024-11-09T14:30:00Z'),
+        bundles: { name: 'Voice Bundle', data_amount: '100 mins' },
+        providers: { name: 'Somtel' },
+      },
+      {
+        id: '3',
+        amount: 15.0,
+        status: 'failed',
+        transaction_date: new Date('2024-11-08T09:15:00Z'),
+        bundles: { name: 'Data Bundle', data_amount: '5GB' },
+        providers: { name: 'Golis' },
+      },
+      {
+        id: '2',
+        amount: 10.0,
+        status: 'completed',
+        transaction_date: new Date('2024-11-09T14:30:00Z'),
+        bundles: { name: 'Voice Bundle', data_amount: '100 mins' },
+        providers: { name: 'Somtel' },
+      },
+      {
+        id: '2',
+        amount: 10.0,
+        status: 'completed',
+        transaction_date: new Date('2024-11-09T14:30:00Z'),
+        bundles: { name: 'Voice Bundle', data_amount: '100 mins' },
+        providers: { name: 'Somtel' },
+      },
+      {
+        id: '2',
+        amount: 10.0,
+        status: 'completed',
+        transaction_date: new Date('2024-11-09T14:30:00Z'),
+        bundles: { name: 'Voice Bundle', data_amount: '100 mins' },
+        providers: { name: 'Somtel' },
+      },
+      {
+        id: '2',
+        amount: 10.0,
+        status: 'completed',
+        transaction_date: new Date('2024-11-09T14:30:00Z'),
+        bundles: { name: 'Voice Bundle', data_amount: '100 mins' },
+        providers: { name: 'Somtel' },
+      },
+      {
+        id: '2',
+        amount: 10.0,
+        status: 'completed',
+        transaction_date: new Date('2024-11-09T14:30:00Z'),
+        bundles: { name: 'Voice Bundle', data_amount: '100 mins' },
+        providers: { name: 'Somtel' },
+      },
+      {
+        id: '3',
+        amount: 15.0,
+        status: 'failed',
+        transaction_date: new Date('2024-11-08T09:15:00Z'),
+        bundles: { name: 'Data Bundle', data_amount: '5GB' },
+        providers: { name: 'Golis' },
+      },
+    ];
 
-    try {
-      const { data } = await supabase
-        .from('transactions')
-        .select('*, bundles(name, data_amount, duration), providers(name)')
-        .eq('user_id', user.id)
-        .order('transaction_date', { ascending: false });
-
-      if (data) {
-        setTransactions(data);
-      }
-    } catch (error) {
-      console.error('Error loading transactions:', error);
-    } finally {
-      setIsLoading(false);
-    }
+    setTransactions(mockTransactions);
+    setIsLoading(false);
   };
 
   const getIcon = (providerName: string) => {
@@ -87,7 +144,8 @@ export default function HistoryScreen() {
                 </View>
                 <View style={styles.transactionDetails}>
                   <Text style={styles.transactionName}>
-                    {transaction.providers?.name} {transaction.bundles?.data_amount}
+                    {transaction.providers?.name}{' '}
+                    {transaction.bundles?.data_amount}
                   </Text>
                   <Text style={styles.transactionDate}>
                     {new Date(transaction.transaction_date).toLocaleDateString(
@@ -116,7 +174,8 @@ export default function HistoryScreen() {
                       transaction.status === 'completed'
                         ? styles.amountSuccess
                         : styles.amountFailed,
-                    ]}>
+                    ]}
+                  >
                     -${transaction.amount.toFixed(2)}
                   </Text>
                   <Text
@@ -125,7 +184,8 @@ export default function HistoryScreen() {
                       transaction.status === 'completed'
                         ? styles.statusSuccess
                         : styles.statusFailed,
-                    ]}>
+                    ]}
+                  >
                     {transaction.status}
                   </Text>
                 </View>

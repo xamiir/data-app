@@ -23,14 +23,16 @@ export default function ConfirmPurchaseScreen() {
     providerName,
   } = params;
 
-  const [phoneNumber, setPhoneNumber] = useState('+252 61 123 1234');
+  const [phoneNumber, setPhoneNumber] = useState('61 555 1234');
 
   return (
     <View style={styles.container}>
+      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.backButton}
-          onPress={() => router.back()}>
+          onPress={() => router.back()}
+        >
           <ArrowLeft size={24} color="#FFFFFF" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Confirm Your Purchase</Text>
@@ -39,29 +41,47 @@ export default function ConfirmPurchaseScreen() {
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.content}>
+          {/* Bundle Card */}
           <View style={styles.bundleCard}>
-            <Text style={styles.bundleLabel}>Weekly Super Data</Text>
-            <Text style={styles.bundleAmount}>{dataAmount}</Text>
-            <Text style={styles.bundlePrice}>${price}</Text>
+            <View style={styles.bundleHeader}>
+              <View style={styles.providerLogo} />
+              <View>
+                <Text style={styles.providerName}>
+                  {providerName || 'Hormuud Telecom'}
+                </Text>
+              </View>
+            </View>
+            <Text style={styles.bundleName}>
+              {bundleName || 'Weekly Super Data'}
+            </Text>
+            <Text style={styles.bundleDetails}>
+              {dataAmount || '5GB'} / {duration || '7 Days'}
+            </Text>
+            <Text style={styles.bundlePrice}>${price || '2.00'}</Text>
           </View>
 
+          {/* Phone Number */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Send bundle to</Text>
             <View style={styles.phoneInputContainer}>
+              <Text style={styles.prefix}>+252</Text>
               <TextInput
                 style={styles.phoneInput}
                 value={phoneNumber}
                 onChangeText={setPhoneNumber}
                 keyboardType="phone-pad"
+                placeholder="61 555 1234"
+                placeholderTextColor="rgba(255,255,255,0.4)"
               />
               <TouchableOpacity style={styles.editButton}>
-                <Edit2 size={20} color="#4A9EFF" />
+                <Edit2 size={18} color="#4A6CF7" />
               </TouchableOpacity>
             </View>
           </View>
         </View>
       </ScrollView>
 
+      {/* Footer */}
       <View style={styles.footer}>
         <TouchableOpacity
           style={styles.confirmButton}
@@ -76,12 +96,13 @@ export default function ConfirmPurchaseScreen() {
                 price,
                 providerId,
                 providerName,
-                phoneNumber,
+                phoneNumber: `+252 ${phoneNumber}`,
               },
             })
-          }>
+          }
+        >
           <Text style={styles.confirmButtonText}>
-            Confirm & Pay ${price}
+            Confirm & Pay ${price || '2.00'}
           </Text>
         </TouchableOpacity>
       </View>
@@ -92,7 +113,7 @@ export default function ConfirmPurchaseScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0A0E13',
+    backgroundColor: '#0B0F17', // dark navy
   },
   header: {
     flexDirection: 'row',
@@ -122,27 +143,42 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   bundleCard: {
-    backgroundColor: '#4A9EFF',
-    borderRadius: 20,
-    padding: 32,
-    alignItems: 'center',
+    backgroundColor: '#121826',
+    borderRadius: 16,
+    padding: 20,
     marginBottom: 32,
   },
-  bundleLabel: {
+  bundleHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  providerLogo: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: '#4A6CF7',
+    marginRight: 10,
+  },
+  providerName: {
+    color: 'rgba(255,255,255,0.9)',
     fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.8)',
+  },
+  bundleName: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '700',
+    marginBottom: 4,
+  },
+  bundleDetails: {
+    color: 'rgba(255,255,255,0.6)',
+    fontSize: 14,
     marginBottom: 8,
   },
-  bundleAmount: {
-    fontSize: 48,
-    fontWeight: '700',
-    color: '#FFFFFF',
-    marginBottom: 16,
-  },
   bundlePrice: {
-    fontSize: 32,
-    fontWeight: '700',
     color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '700',
   },
   section: {
     marginBottom: 32,
@@ -151,15 +187,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: '#FFFFFF',
-    marginBottom: 16,
+    marginBottom: 12,
   },
   phoneInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1C2733',
+    backgroundColor: '#121826',
     borderRadius: 12,
     paddingHorizontal: 20,
-    height: 60,
+    height: 56,
+  },
+  prefix: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
+    marginRight: 8,
   },
   phoneInput: {
     flex: 1,
@@ -168,22 +210,22 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   editButton: {
-    padding: 8,
+    padding: 6,
   },
   footer: {
     padding: 24,
     paddingBottom: 40,
   },
   confirmButton: {
-    backgroundColor: '#4A9EFF',
+    backgroundColor: '#4A6CF7',
     borderRadius: 16,
-    height: 60,
+    height: 56,
     justifyContent: 'center',
     alignItems: 'center',
   },
   confirmButtonText: {
     color: '#FFFFFF',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '700',
   },
 });

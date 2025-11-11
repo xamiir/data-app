@@ -1,6 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
-import { User } from '@/types/database';
+
+interface User {
+  id: string;
+  phone_number: string;
+  full_name?: string;
+}
 
 interface AuthContextType {
   user: User | null;
@@ -17,57 +21,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    checkUser();
+    // Mock: always logged in with static user
+    setUser({ id: '1', phone_number: '+1234567890', full_name: 'John Doe' });
+    setIsLoading(false);
   }, []);
 
-  const checkUser = async () => {
-    try {
-      const { data } = await supabase.auth.getSession();
-      if (data.session?.user) {
-        const { data: userData } = await supabase
-          .from('users')
-          .select('*')
-          .eq('id', data.session.user.id)
-          .maybeSingle();
-        setUser(userData);
-      }
-    } catch (error) {
-      console.error('Error checking user:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const signUp = async (phoneNumber: string, password: string) => {
-    const { data, error } = await supabase.auth.signUp({
-      phone: phoneNumber,
-      password,
-    });
-
-    if (error) throw error;
-
-    if (data.user) {
-      await supabase.from('users').insert({
-        id: data.user.id,
-        phone_number: phoneNumber,
-        password_hash: '',
-      });
-      await checkUser();
-    }
+    // Mock signup
+    setUser({ id: '1', phone_number: phoneNumber });
   };
 
   const signIn = async (phoneNumber: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      phone: phoneNumber,
-      password,
-    });
-
-    if (error) throw error;
-    await checkUser();
+    // Mock signin
+    setUser({ id: '1', phone_number: phoneNumber });
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    // Mock signout - but since static, maybe do nothing or set to null
     setUser(null);
   };
 

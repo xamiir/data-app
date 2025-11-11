@@ -8,7 +8,6 @@ import {
   Alert,
 } from 'react-native';
 import {
-  User,
   Lock,
   CreditCard,
   Globe,
@@ -40,12 +39,14 @@ export default function ProfileScreen() {
 
   return (
     <View style={styles.container}>
+      {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Profile</Text>
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.content}>
+          {/* Profile Card */}
           <View style={styles.profileCard}>
             <View style={styles.avatar}>
               <Text style={styles.avatarText}>
@@ -56,69 +57,69 @@ export default function ProfileScreen() {
               {user?.full_name || 'Abdi Hassan'}
             </Text>
             <Text style={styles.profilePhone}>
-              {user?.phone_number || '+252 • • • • 1325'}
+              {user?.phone_number || '+252 •••• •••• 123'}
             </Text>
           </View>
 
+          {/* Settings Section */}
           <View style={styles.menuSection}>
             <TouchableOpacity style={styles.menuItem}>
-              <View style={styles.menuItemLeft}>
-                <View style={[styles.menuIcon, { backgroundColor: '#4169E1' }]}>
+              <View style={styles.menuLeft}>
+                <View style={[styles.iconBox, { backgroundColor: '#4A6CF7' }]}>
                   <Lock size={20} color="#FFFFFF" />
                 </View>
-                <Text style={styles.menuItemText}>Change Password</Text>
+                <Text style={styles.menuText}>Change Password</Text>
               </View>
-              <ChevronRight size={20} color="#6B7280" />
+              <ChevronRight size={20} color="#9CA3AF" />
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.menuItem}>
-              <View style={styles.menuItemLeft}>
-                <View style={[styles.menuIcon, { backgroundColor: '#32CD32' }]}>
+              <View style={styles.menuLeft}>
+                <View style={[styles.iconBox, { backgroundColor: '#22C55E' }]}>
                   <CreditCard size={20} color="#FFFFFF" />
                 </View>
-                <Text style={styles.menuItemText}>Payment Methods</Text>
+                <Text style={styles.menuText}>Payment Methods</Text>
               </View>
-              <ChevronRight size={20} color="#6B7280" />
+              <ChevronRight size={20} color="#9CA3AF" />
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.menuItem}>
-              <View style={styles.menuItemLeft}>
-                <View style={[styles.menuIcon, { backgroundColor: '#4A9EFF' }]}>
+              <View style={styles.menuLeft}>
+                <View style={[styles.iconBox, { backgroundColor: '#4A9EFF' }]}>
                   <Globe size={20} color="#FFFFFF" />
                 </View>
-                <Text style={styles.menuItemText}>Language</Text>
+                <Text style={styles.menuText}>Language</Text>
               </View>
-              <View style={styles.menuItemRight}>
-                <Text style={styles.menuItemValue}>English</Text>
-                <ChevronRight size={20} color="#6B7280" />
+              <View style={styles.menuRight}>
+                <Text style={styles.menuValue}>English</Text>
+                <ChevronRight size={20} color="#9CA3AF" />
               </View>
             </TouchableOpacity>
-          </View>
 
-          <View style={styles.menuSection}>
             <TouchableOpacity style={styles.menuItem}>
-              <View style={styles.menuItemLeft}>
-                <View style={[styles.menuIcon, { backgroundColor: '#9370DB' }]}>
+              <View style={styles.menuLeft}>
+                <View style={[styles.iconBox, { backgroundColor: '#8B5CF6' }]}>
                   <FileText size={20} color="#FFFFFF" />
                 </View>
-                <Text style={styles.menuItemText}>Terms of Service</Text>
+                <Text style={styles.menuText}>Terms of Service</Text>
               </View>
-              <ChevronRight size={20} color="#6B7280" />
+              <ChevronRight size={20} color="#9CA3AF" />
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.menuItem}>
-              <View style={styles.menuItemLeft}>
-                <View style={[styles.menuIcon, { backgroundColor: '#FFA500' }]}>
+              <View style={styles.menuLeft}>
+                <View style={[styles.iconBox, { backgroundColor: '#F59E0B' }]}>
                   <Shield size={20} color="#FFFFFF" />
                 </View>
-                <Text style={styles.menuItemText}>Privacy Policy</Text>
+                <Text style={styles.menuText}>Privacy Policy</Text>
               </View>
-              <ChevronRight size={20} color="#6B7280" />
+              <ChevronRight size={20} color="#9CA3AF" />
             </TouchableOpacity>
           </View>
 
+          {/* Logout */}
           <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <LogOut size={20} color="#FF4500" />
+            <LogOut size={18} color="#FF4D4D" />
             <Text style={styles.logoutText}>Logout</Text>
           </TouchableOpacity>
         </View>
@@ -130,109 +131,75 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0A0E13',
+    backgroundColor: '#0B0F17',
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
     paddingHorizontal: 24,
     paddingTop: 60,
-    paddingBottom: 20,
+    paddingBottom: 16,
   },
   headerTitle: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: '700',
     color: '#FFFFFF',
+    textAlign: 'center',
   },
   content: {
-    padding: 24,
+    paddingHorizontal: 24,
+    paddingBottom: 40,
   },
   profileCard: {
-    backgroundColor: '#1C2733',
-    borderRadius: 20,
-    padding: 32,
+    backgroundColor: '#121826',
+    borderRadius: 16,
     alignItems: 'center',
+    paddingVertical: 24,
     marginBottom: 24,
   },
   avatar: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#4A9EFF',
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    backgroundColor: '#4A6CF7',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 12,
   },
-  avatarText: {
-    fontSize: 32,
-    fontWeight: '700',
-    color: '#FFFFFF',
-  },
-  profileName: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#FFFFFF',
-    marginBottom: 4,
-  },
-  profilePhone: {
-    fontSize: 14,
-    color: '#9CA3AF',
-  },
+  avatarText: { color: '#FFFFFF', fontSize: 28, fontWeight: '700' },
+  profileName: { color: '#FFFFFF', fontSize: 18, fontWeight: '700' },
+  profilePhone: { color: '#9CA3AF', fontSize: 14, marginTop: 4 },
   menuSection: {
-    backgroundColor: '#1C2733',
+    backgroundColor: '#121826',
     borderRadius: 16,
-    marginBottom: 16,
-    overflow: 'hidden',
+    paddingVertical: 4,
+    marginBottom: 24,
   },
   menuItem: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#2D3748',
-  },
-  menuItemLeft: {
-    flexDirection: 'row',
     alignItems: 'center',
-    flex: 1,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
   },
-  menuIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+  menuLeft: { flexDirection: 'row', alignItems: 'center' },
+  iconBox: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
   },
-  menuItemText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#FFFFFF',
-  },
-  menuItemRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  menuItemValue: {
-    fontSize: 14,
-    color: '#9CA3AF',
-  },
+  menuText: { color: '#FFFFFF', fontSize: 14, fontWeight: '600' },
+  menuRight: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  menuValue: { color: '#9CA3AF', fontSize: 13 },
   logoutButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(255, 69, 0, 0.1)',
-    borderRadius: 16,
-    padding: 16,
-    marginTop: 8,
+    backgroundColor: 'rgba(255,77,77,0.1)',
+    borderRadius: 12,
+    paddingVertical: 14,
     gap: 8,
   },
-  logoutText: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#FF4500',
-  },
+  logoutText: { color: '#FF4D4D', fontSize: 15, fontWeight: '700' },
 });

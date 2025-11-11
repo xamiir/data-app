@@ -34,6 +34,9 @@ export default function LoginScreen() {
       Alert.alert('Error', error.message);
     } finally {
       setIsLoading(false);
+      // Reset form fields
+      setPhoneNumber('');
+      setPassword('');
     }
   };
 
@@ -77,7 +80,8 @@ export default function LoginScreen() {
             />
             <TouchableOpacity
               onPress={() => setShowPassword(!showPassword)}
-              style={styles.eyeIcon}>
+              style={styles.eyeIcon}
+            >
               {showPassword ? (
                 <EyeOff size={20} color="#6B7280" />
               ) : (
@@ -90,7 +94,8 @@ export default function LoginScreen() {
         <TouchableOpacity
           style={[styles.button, isLoading && styles.buttonDisabled]}
           onPress={handleLogin}
-          disabled={isLoading}>
+          disabled={isLoading}
+        >
           <Text style={styles.buttonText}>
             {isLoading ? 'Signing In...' : 'Log In'}
           </Text>
